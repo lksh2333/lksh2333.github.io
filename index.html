@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuctionRating - Real-Time Group Polls</title>
+    <title>AuctionRating - Real-time Group Polls</title>
     <style>
         :root {
             --color-cream-50: rgba(252, 252, 249, 1);
@@ -65,23 +65,6 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .live-badge {
-            display: inline-block;
-            background: #ff4444;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 8px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
         }
 
         .group-selection {
@@ -174,42 +157,6 @@
             box-shadow: 0 0 0 3px rgba(33, 128, 141, 0.1);
         }
 
-        .search-container {
-            position: relative;
-        }
-
-        .dropdown-list {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid var(--color-border);
-            border-top: none;
-            border-radius: 0 0 var(--radius-base) var(--radius-base);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 100;
-            display: none;
-        }
-
-        .dropdown-list.show {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: var(--space-12) var(--space-16);
-            cursor: pointer;
-            transition: all 250ms;
-            border-bottom: 1px solid var(--color-border);
-            font-size: 14px;
-        }
-
-        .dropdown-item:hover {
-            background: var(--color-primary);
-            color: white;
-        }
-
         .btn-primary {
             background: var(--color-primary);
             color: var(--color-btn-primary-text);
@@ -264,6 +211,39 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 12px;
+            transition: all 250ms;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .error-message {
+            background: rgba(192, 21, 47, 0.1);
+            border: 1px solid rgba(192, 21, 47, 0.3);
+            color: #c0152f;
+            padding: var(--space-12) var(--space-16);
+            border-radius: var(--radius-base);
+            margin-bottom: var(--space-16);
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: rgba(33, 128, 141, 0.1);
+            border: 1px solid rgba(33, 128, 141, 0.3);
+            color: var(--color-primary);
+            padding: var(--space-12) var(--space-16);
+            border-radius: var(--radius-base);
+            margin-bottom: var(--space-16);
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
         }
 
         .poll-header {
@@ -281,12 +261,42 @@
             border-radius: var(--radius-base);
             cursor: pointer;
             font-weight: 500;
+            transition: all 250ms;
+        }
+
+        .back-btn:hover {
+            background: var(--color-border);
         }
 
         .group-name-display {
             font-size: 16px;
             font-weight: 600;
             color: var(--color-primary);
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-8);
+            background: rgba(33, 128, 141, 0.1);
+            padding: var(--space-8) var(--space-12);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .team-grid {
@@ -302,6 +312,12 @@
             border-radius: var(--radius-lg);
             padding: var(--space-20);
             box-shadow: var(--shadow-sm);
+            transition: all 250ms;
+        }
+
+        .team-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
 
         .team-header {
@@ -359,7 +375,28 @@
             border-radius: 3px;
             background: #e8e8e8;
             outline: none;
+            -webkit-appearance: none;
             cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .overall-score {
@@ -369,6 +406,12 @@
             border-radius: var(--radius-base);
             text-align: center;
             margin-top: var(--space-20);
+        }
+
+        .overall-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: var(--space-4);
         }
 
         .overall-value {
@@ -385,17 +428,13 @@
             font-size: 16px;
             cursor: pointer;
             font-weight: 600;
+            transition: background 250ms;
             margin-top: var(--space-20);
             width: 100%;
         }
 
-        .btn-submit:hover:not(:disabled) {
+        .btn-submit:hover {
             background: var(--color-primary-hover);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         .modal-overlay {
@@ -501,6 +540,62 @@
             margin: 0 0 var(--space-20) 0;
         }
 
+        .winner-stats {
+            background: rgba(33, 128, 141, 0.05);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+            margin-bottom: var(--space-16);
+            text-align: left;
+        }
+
+        .winner-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-8) 0;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(94, 82, 64, 0.1);
+        }
+
+        .winner-stat:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .runner-ups {
+            margin-top: var(--space-16);
+            padding-top: var(--space-16);
+            border-top: 2px solid var(--color-border);
+        }
+
+        .runner-up-title {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: var(--space-8);
+        }
+
+        .runner-up-item {
+            font-size: 13px;
+            color: var(--color-slate-900);
+            padding: var(--space-4) 0;
+        }
+
+        .runner-up-rank {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
         .results-header {
             background: var(--color-surface);
             border: 1px solid var(--color-border);
@@ -522,6 +617,35 @@
             margin-top: var(--space-8);
         }
 
+        .avg-rating-bar {
+            margin-top: var(--space-8);
+            background: #e8e8e8;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .avg-rating-fill {
+            background: linear-gradient(90deg, var(--color-primary), var(--color-teal-400));
+            height: 100%;
+            transition: width 300ms;
+        }
+
+        .avg-rating-text {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: var(--space-4);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .leaderboard-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-slate-900);
+            margin-bottom: var(--space-16);
+        }
+
         .leaderboard-grid {
             display: grid;
             gap: var(--space-12);
@@ -533,9 +657,15 @@
             border-radius: var(--radius-lg);
             padding: var(--space-16);
             display: grid;
-            grid-template-columns: 60px 1fr auto;
+            grid-template-columns: 60px 1fr auto auto;
             align-items: center;
             gap: var(--space-16);
+            transition: all 250ms;
+        }
+
+        .leaderboard-item:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-primary);
         }
 
         .leaderboard-rank {
@@ -545,10 +675,26 @@
             color: var(--color-primary);
         }
 
+        .leaderboard-rank.first {
+            color: #FFD700;
+            font-size: 32px;
+        }
+
+        .leaderboard-rank.second {
+            color: #C0C0C0;
+            font-size: 30px;
+        }
+
+        .leaderboard-rank.third {
+            color: #CD7F32;
+            font-size: 28px;
+        }
+
         .leaderboard-info h4 {
             margin: 0 0 var(--space-4) 0;
             font-size: 16px;
             font-weight: 600;
+            color: var(--color-slate-900);
         }
 
         .leaderboard-info p {
@@ -557,45 +703,47 @@
             color: var(--color-text-secondary);
         }
 
+        .leaderboard-score {
+            text-align: right;
+        }
+
         .leaderboard-value {
             font-size: 24px;
             font-weight: 700;
             color: var(--color-primary);
+            line-height: 1;
+        }
+
+        .leaderboard-votes {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            margin-top: var(--space-4);
         }
 
         .activity-feed {
-            background: rgba(33, 128, 141, 0.05);
+            background: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
             padding: var(--space-16);
+            margin-bottom: var(--space-20);
             max-height: 200px;
             overflow-y: auto;
-            margin-bottom: var(--space-20);
+            font-size: 12px;
         }
 
         .activity-item {
-            font-size: 13px;
-            color: var(--color-text-secondary);
-            padding: var(--space-8) 0;
+            padding: var(--space-8);
             border-bottom: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
         }
 
         .activity-item:last-child {
             border-bottom: none;
         }
 
-        .vote-progress {
-            background: #e8e8e8;
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: var(--space-8);
-        }
-
-        .vote-progress-fill {
-            background: linear-gradient(90deg, var(--color-primary), var(--color-teal-400));
-            height: 100%;
-            transition: width 300ms;
+        .activity-item.new {
+            color: var(--color-primary);
+            font-weight: 600;
         }
     </style>
 </head>
@@ -603,9 +751,10 @@
     <div class="container">
         <!-- Group Selection Screen -->
         <div id="groupSelection" class="group-selection active">
-            <h1>🎯 AuctionRating - Group Polls <span class="live-badge">● LIVE</span></h1>
+            <h1>🎯 AuctionRating - Real-time Group Polls</h1>
             <p class="subtitle">Create a new group or join an existing group to rate together in real-time</p>
 
+            <!-- Tab Buttons -->
             <div class="tab-buttons">
                 <button class="tab-btn active" onclick="switchTab('create')">+ Create Group</button>
                 <button class="tab-btn" onclick="switchTab('join')">🔍 Join Group</button>
@@ -620,11 +769,12 @@
                         <label class="form-label">Group Name</label>
                         <input type="text" id="groupNameInput" class="form-input" placeholder="e.g., Friends, Office, Family" maxlength="30">
                     </div>
-                    <div id="errorMsg" style="color: #c0152f; display: none;"></div>
+                    <div class="error-message" id="errorMsg"></div>
                     <button class="btn-primary" onclick="createGroup()">Create Group</button>
 
+                    <!-- Share Link Section -->
                     <div class="link-section" id="linkSection" style="display: none;">
-                        <div class="link-label">📋 Share Link with Friends</div>
+                        <div class="link-label">📋 Share Link (Real-time Sync)</div>
                         <div class="link-display">
                             <input type="text" id="shareLink" readonly style="background: transparent; border: none; color: white; flex: 1; outline: none; font-size: 12px;">
                             <button class="copy-btn" onclick="copyLink()">Copy</button>
@@ -640,12 +790,12 @@
                     <div class="group-subtitle">Search and join a group by name</div>
                     <div class="form-group">
                         <label class="form-label">Group Name</label>
-                        <div class="search-container">
-                            <input type="text" id="searchGroupInput" class="form-input" placeholder="Search group name..." oninput="searchGroups(event)">
-                            <div class="dropdown-list" id="dropdownList"></div>
-                        </div>
+                        <input type="text" id="searchGroupInput" class="form-input" placeholder="Search group name..." oninput="searchGroups(event)">
                     </div>
+                    <div class="error-message" id="joinErrorMsg"></div>
+                    <div class="success-message" id="joinSuccessMsg"></div>
                     
+                    <!-- Also Show All Groups -->
                     <div style="margin-top: var(--space-24); text-align: left;">
                         <div class="group-title" style="text-align: center;">Available Groups</div>
                         <div class="leaderboard-grid" id="availableGroupsList" style="margin-top: var(--space-16);"></div>
@@ -658,44 +808,40 @@
         <div id="pollScreen" style="display: none;">
             <div class="poll-header">
                 <button class="back-btn" onclick="backToGroups()">← Back to Groups</button>
-                <div class="group-name-display" id="currentGroupName"></div>
+                <div style="display: flex; gap: var(--space-16); align-items: center;">
+                    <div class="group-name-display" id="currentGroupName"></div>
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        <span>LIVE</span>
+                    </div>
+                </div>
             </div>
 
-            <h1>🎯 AuctionRating Poll <span class="live-badge">● LIVE</span></h1>
+            <h1>🎯 AuctionRating Poll</h1>
             <p class="subtitle">Rate in real-time with your friends. See live vote updates as everyone rates!</p>
+
+            <!-- Activity Feed -->
+            <div class="activity-feed" id="activityFeed">
+                <div class="activity-item">Waiting for participants...</div>
+            </div>
 
             <div id="voteTab" class="tab-content active">
                 <div style="background: rgba(33, 128, 141, 0.1); border-left: 3px solid var(--color-primary); padding: var(--space-12) var(--space-16); border-radius: var(--radius-base); margin-bottom: var(--space-20); font-size: 14px; color: var(--color-slate-900);">
-                    <strong>ℹ️ Real-Time Voting:</strong> Rate each item. Votes are synced instantly! Voting closes after 10 votes.
+                    <strong>ℹ️ Real-time Poll:</strong> Rate each item. All participants see live updates instantly! Voting closes after 10 votes.
                 </div>
-
-                <div id="activityFeed" class="activity-feed" style="display: none;">
-                    <strong style="font-size: 12px; color: var(--color-primary);">📊 Live Activity</strong>
-                    <div id="activityList"></div>
-                </div>
-
-                <div id="voteCounter" style="margin-bottom: var(--space-20); padding: var(--space-16); background: rgba(33, 128, 141, 0.1); border-radius: var(--radius-base); text-align: center;">
-                    <div style="font-size: 14px; color: var(--color-text-secondary); margin-bottom: var(--space-8);">Votes Submitted</div>
-                    <div style="font-size: 28px; font-weight: 700; color: var(--color-primary); margin-bottom: var(--space-8);">
-                        <span id="voteCountDisplay">0</span>/10
-                    </div>
-                    <div class="vote-progress">
-                        <div class="vote-progress-fill" id="voteProgressBar" style="width: 0%;"></div>
-                    </div>
-                </div>
-
+                <div class="voting-closed" id="votingClosed">🔒 Voting has closed! 10 votes reached. Check results to see the winner.</div>
                 <div class="team-grid" id="teamGrid"></div>
                 <button class="btn-submit" id="submitBtn" onclick="submitVote()">Submit My Ratings</button>
             </div>
 
             <div id="resultsTab" class="tab-content">
                 <div class="results-header">
-                    <h2 class="summary-title">Group Ratings Leaderboard</h2>
+                    <h2 class="summary-title">Live Group Rankings</h2>
                     <div class="voter-count" id="voterCount">Loading poll data...</div>
                 </div>
                 
                 <div style="margin-bottom: var(--space-32);">
-                    <div style="font-size: 18px; font-weight: 600; margin-bottom: var(--space-16);">📊 Group Rankings</div>
+                    <div class="leaderboard-title">📊 Real-time Rankings</div>
                     <div class="leaderboard-grid" id="leaderboardGrid"></div>
                 </div>
 
@@ -715,30 +861,48 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="winnerModal">
+    <div class="modal-overlay" id="fullGroupModal">
         <div class="modal-content">
-            <div class="modal-icon">🏆</div>
-            <h2 class="modal-title">Group Favorite!</h2>
-            <p id="winnerText" class="modal-text"></p>
+            <div class="modal-icon">🔒</div>
+            <h2 class="modal-title">Group Full!</h2>
+            <p class="modal-text">This group already has 10 members. Maximum capacity reached. Try another group!</p>
+            <button onclick="closeModal('fullGroupModal')" style="background: var(--color-primary); color: white; border: none; padding: var(--space-12) var(--space-24); border-radius: var(--radius-base); cursor: pointer; margin-top: var(--space-16); width: 100%; font-weight: 600;">Close</button>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <div class="modal-overlay" id="duplicateVoteModal">
+        <div class="modal-content">
+            <div class="modal-icon">⚠️</div>
+            <h2 class="modal-title">Vote Already Submitted!</h2>
+            <p class="modal-text">You have already submitted your ratings for this group. Each user can vote only once per group.</p>
+            <button onclick="closeModal('duplicateVoteModal')" style="background: var(--color-primary); color: white; border: none; padding: var(--space-12) var(--space-24); border-radius: var(--radius-base); cursor: pointer; margin-top: var(--space-16); width: 100%; font-weight: 600;">Close</button>
+        </div>
+    </div>
+
+    <div class="winner-modal" id="winnerModal">
+        <div class="winner-content">
+            <div class="winner-icon">🏆</div>
+            <h2 class="winner-title">GROUP FAVORITE!</h2>
+            <h3 class="winner-team" id="winnerTeamName"></h3>
+            <div class="winner-stats" id="winnerStats"></div>
+            <div class="runner-ups" id="runnerUps"></div>
+        </div>
+    </div>
+     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
 
     <script>
-              const firebaseConfig = {
-  apiKey: "AIzaSyAjYdcQiJ-KF-8h5VI1USkte5UWY77L2rE",
-  authDomain: "auctionrating.firebaseapp.com",
-  databaseURL: "https://auctionrating-default-rtdb.firebaseio.com",
-  projectId: "auctionrating",
-  storageBucket: "auctionrating.firebasestorage.app",
-  messagingSenderId: "173374951850",
-  appId: "1:173374951850:web:1987d1672d28aaa0b85bd3",
-  measurementId: "G-VVJFGHS9GY"
-
+               const firebaseConfig = {
+          apiKey: "AIzaSyAjYdcQiJ-KF-8h5VI1USkte5UWY77L2rE",
+          authDomain: "auctionrating.firebaseapp.com",
+          databaseURL: "https://auctionrating-default-rtdb.firebaseio.com",
+          projectId: "auctionrating",
+          storageBucket: "auctionrating.firebasestorage.app",
+          messagingSenderId: "173374951850",
+          appId: "1:173374951850:web:1987d1672d28aaa0b85bd3",
+          measurementId: "G-VVJFGHS9GY"
         };
        
         // Initialize Firebase
@@ -751,6 +915,9 @@
             console.log('Auth error:', error);
         });
 
+
+
+    <script>
         const teams = [
             { name: 'Mumbai Indians', abbr: 'MI' },
             { name: 'Chennai Super Kings', abbr: 'CSK' },
@@ -780,7 +947,8 @@
         let currentGroup = null;
         let currentUserId = null;
         let ratings = {};
-        let activityLog = [];
+        let createdGroupName = null;
+        let pollUpdateInterval = null;
 
         function switchTab(tab) {
             document.getElementById('createTab').classList.remove('active');
@@ -797,119 +965,198 @@
             }
         }
 
+        function getUserId() {
+            let userId = localStorage.getItem('auctionUserId');
+            if (!userId) {
+                userId = 'user_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('auctionUserId', userId);
+            }
+            return userId;
+        }
+
+        function getGroupsData() {
+            return JSON.parse(localStorage.getItem('auctionGroups')) || {};
+        }
+
+        function saveGroupsData(groups) {
+            localStorage.setItem('auctionGroups', JSON.stringify(groups));
+        }
+
+        function getUserGroups() {
+            const userId = getUserId();
+            const userData = JSON.parse(localStorage.getItem('auctionUserGroups')) || {};
+            return userData[userId] || [];
+        }
+
+        function saveUserGroups(groups) {
+            const userId = getUserId();
+            const userData = JSON.parse(localStorage.getItem('auctionUserGroups')) || {};
+            userData[userId] = groups;
+            localStorage.setItem('auctionUserGroups', JSON.stringify(userData));
+        }
+
+        function addActivity(message) {
+            const feed = document.getElementById('activityFeed');
+            const item = document.createElement('div');
+            item.className = 'activity-item new';
+            item.textContent = message;
+            feed.insertBefore(item, feed.firstChild);
+            if (feed.children.length > 10) feed.removeChild(feed.lastChild);
+        }
+
+        function hasUserVoted(groupName) {
+            const groups = getGroupsData();
+            const groupData = groups[groupName];
+            if (!groupData || !groupData.votes) return false;
+            return groupData.votes.hasOwnProperty(getUserId());
+        }
+
         function createGroup() {
             const groupName = document.getElementById('groupNameInput').value.trim();
             const errorMsg = document.getElementById('errorMsg');
 
             if (!groupName) {
-                errorMsg.textContent = '❌ Please enter a group name';
-                errorMsg.style.display = 'block';
+                errorMsg.textContent = 'Please enter a group name';
+                errorMsg.classList.add('show');
                 return;
             }
 
-            const groupsRef = database.ref('groups/' + groupName);
-            groupsRef.once('value', snapshot => {
-                if (snapshot.exists()) {
-                    errorMsg.textContent = '❌ Group already exists!';
-                    errorMsg.style.display = 'block';
-                } else {
-                    groupsRef.set({
-                        created: new Date().toISOString(),
-                        votes: {},
-                        members: [currentUserId],
-                        activity: []
-                    });
+            const groups = getGroupsData();
+            if (groups[groupName]) {
+                errorMsg.textContent = 'Group already exists!';
+                errorMsg.classList.add('show');
+                return;
+            }
 
-                    document.getElementById('groupNameInput').value = '';
-                    errorMsg.style.display = 'none';
+            groups[groupName] = { created: new Date().toISOString(), votes: {}, members: [getUserId()], activities: [] };
+            saveGroupsData(groups);
 
-                    const shareLink = `${window.location.href}?join=${btoa(groupName)}`;
-                    document.getElementById('shareLink').value = shareLink;
-                    document.getElementById('linkSection').style.display = 'block';
-                }
-            });
+            const userGroups = getUserGroups();
+            userGroups.push(groupName);
+            saveUserGroups(userGroups);
+
+            document.getElementById('groupNameInput').value = '';
+            errorMsg.classList.remove('show');
+
+            const shareLink = window.location.href.split('?')[0] + '?group=' + encodeURIComponent(groupName);
+            document.getElementById('shareLink').value = shareLink;
+            document.getElementById('linkSection').style.display = 'block';
         }
 
         function copyLink() {
             const linkInput = document.getElementById('shareLink');
             linkInput.select();
             document.execCommand('copy');
-            alert('✅ Link copied! Share with friends to play together 🎉');
+            alert('✅ Link copied! Share with friends to play together in real-time.');
         }
 
         function searchGroups(event) {
             const searchValue = event.target.value.toLowerCase();
-            const dropdown = document.getElementById('dropdownList');
+            const groups = getGroupsData();
 
-            if (searchValue.length === 0) {
-                dropdown.classList.remove('show');
+            if (searchValue.length === 0) return;
+
+            const filteredGroups = Object.entries(groups).filter(([name]) =>
+                name.toLowerCase().includes(searchValue)
+            );
+
+            if (filteredGroups.length > 0) {
+                selectGroup(filteredGroups[0][0]);
+            }
+        }
+
+        function selectGroup(groupName) {
+            const groups = getGroupsData();
+            const groupData = groups[groupName];
+            const memberCount = (groupData.members || []).length;
+
+            if (memberCount >= 10) {
+                document.getElementById('fullGroupModal').classList.add('show');
                 return;
             }
 
-            const groupsRef = database.ref('groups');
-            groupsRef.once('value', snapshot => {
-                const groups = snapshot.val() || {};
-                const filtered = Object.entries(groups).filter(([name]) =>
-                    name.toLowerCase().includes(searchValue)
-                );
-
-                dropdown.innerHTML = '';
-                filtered.forEach(([name, data]) => {
-                    const item = document.createElement('div');
-                    item.className = 'dropdown-item';
-                    item.textContent = `${name} (${Object.keys(data.votes || {}).length}/10 voted)`;
-                    item.onclick = () => joinGroup(name);
-                    dropdown.appendChild(item);
-                });
-
-                dropdown.classList.add('show');
-            });
-        }
-
-        function loadAvailableGroups() {
-            const groupsRef = database.ref('groups');
-            groupsRef.on('value', snapshot => {
-                const groups = snapshot.val() || {};
-                const list = document.getElementById('availableGroupsList');
-                list.innerHTML = '';
-
-                if (Object.keys(groups).length === 0) {
-                    list.innerHTML = '<div style="text-align: center; color: var(--color-text-secondary); padding: var(--space-20);">No groups yet. Create one!</div>';
-                    return;
-                }
-
-                Object.entries(groups).forEach(([name, data]) => {
-                    const voteCount = Object.keys(data.votes || {}).length;
-                    const item = document.createElement('div');
-                    item.className = 'leaderboard-item';
-                    item.innerHTML = `
-                        <div style="grid-column: 1/-1; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h4 style="margin: 0;">${name}</h4>
-                                <p style="margin: 0; font-size: 12px; color: var(--color-text-secondary);">${voteCount}/10 voted</p>
-                            </div>
-                            <button class="btn-primary" style="width: auto; margin: 0; padding: var(--space-8) var(--space-16); font-size: 12px;" onclick="joinGroup('${name}')">
-                                ${voteCount >= 10 ? '❌ FULL' : 'Join'}
-                            </button>
-                        </div>
-                    `;
-                    list.appendChild(item);
-                });
-            });
+            joinGroup(groupName);
         }
 
         function joinGroup(groupName) {
-            const groupsRef = database.ref('groups/' + groupName);
-            groupsRef.once('value', snapshot => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    if (!data.members.includes(currentUserId)) {
-                        data.members.push(currentUserId);
-                        groupsRef.update({ members: data.members });
-                    }
-                    enterGroup(groupName);
+            const groups = getGroupsData();
+            const groupData = groups[groupName];
+            const userId = getUserId();
+
+            if (!groupData.members.includes(userId)) {
+                groupData.members.push(userId);
+                addActivity(`New member joined (${groupData.members.length}/10)`);
+                saveGroupsData(groups);
+
+                const userGroups = getUserGroups();
+                if (!userGroups.includes(groupName)) {
+                    userGroups.push(groupName);
+                    saveUserGroups(userGroups);
                 }
+            }
+
+            setTimeout(() => {
+                enterGroup(groupName);
+            }, 500);
+        }
+
+        function loadAvailableGroups() {
+            const groups = getGroupsData();
+            const userId = getUserId();
+            const userGroups = getUserGroups();
+            const list = document.getElementById('availableGroupsList');
+            list.innerHTML = '';
+
+            if (Object.keys(groups).length === 0) {
+                list.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-secondary); padding: var(--space-20);">No groups available yet. Create one!</div>';
+                return;
+            }
+
+            Object.entries(groups).forEach(([name, data]) => {
+                const memberCount = (data.members || []).length;
+                const voteCount = Object.keys(data.votes || {}).length;
+                const isMember = userGroups.includes(name);
+                const hasVoted = data.votes.hasOwnProperty(userId);
+                const isFull = memberCount >= 10;
+
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+                item.innerHTML = `
+                    <div style="grid-column: 1/-1; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: var(--color-slate-900);">${name}</h4>
+                            <p style="margin: 0; font-size: 12px; color: var(--color-text-secondary);">${memberCount}/10 members • ${voteCount} voted</p>
+                        </div>
+                        <button 
+                            class="btn-primary" 
+                            style="width: auto; margin: 0; padding: var(--space-8) var(--space-16); font-size: 12px;"
+                            onclick="joinOrEnter('${name}')"
+                            ${isFull && !isMember ? 'disabled' : ''}
+                        >
+                            ${!isMember ? (isFull ? '❌ FULL' : 'Join') : (hasVoted ? '✓ Voted' : 'Vote')}
+                        </button>
+                    </div>
+                `;
+                list.appendChild(item);
             });
+        }
+
+        function joinOrEnter(groupName) {
+            const groups = getGroupsData();
+            const groupData = groups[groupName];
+            const userId = getUserId();
+            const userGroups = getUserGroups();
+
+            if (!userGroups.includes(groupName)) {
+                const memberCount = (groupData.members || []).length;
+                if (memberCount >= 10) {
+                    document.getElementById('fullGroupModal').classList.add('show');
+                    return;
+                }
+                joinGroup(groupName);
+            } else {
+                enterGroup(groupName);
+            }
         }
 
         function enterGroup(groupName) {
@@ -927,50 +1174,20 @@
             document.getElementById('currentGroupName').textContent = `📍 ${groupName}`;
             
             renderTeams();
-            setupRealtimeListener();
+            checkVoteLimit();
             loadResults();
-        }
 
-        function setupRealtimeListener() {
-            const groupRef = database.ref('groups/' + currentGroup);
-            groupRef.on('value', snapshot => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    updateVoteCounter(Object.keys(data.votes || {}).length);
-                    updateActivityFeed(data.activity || []);
-                    checkVoteLimit();
-                    loadResults();
-                }
-            });
-        }
-
-        function updateVoteCounter(count) {
-            document.getElementById('voteCountDisplay').textContent = count;
-            const progress = (count / 10) * 100;
-            document.getElementById('voteProgressBar').style.width = progress + '%';
-        }
-
-        function updateActivityFeed(activity) {
-            const feed = document.getElementById('activityFeed');
-            const list = document.getElementById('activityList');
-            
-            if (activity.length === 0) {
-                feed.style.display = 'none';
-                return;
-            }
-
-            feed.style.display = 'block';
-            list.innerHTML = '';
-            activity.slice(-5).reverse().forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'activity-item';
-                div.textContent = item;
-                list.appendChild(div);
-            });
+            // Refresh results every 500ms for real-time updates
+            if (pollUpdateInterval) clearInterval(pollUpdateInterval);
+            pollUpdateInterval = setInterval(() => {
+                loadResults();
+                checkVoteLimit();
+            }, 500);
         }
 
         function backToGroups() {
             currentGroup = null;
+            if (pollUpdateInterval) clearInterval(pollUpdateInterval);
             document.getElementById('groupSelection').classList.add('active');
             document.getElementById('pollScreen').style.display = 'none';
         }
@@ -986,10 +1203,11 @@
                     <div class="rating-factor">
                         <div class="rating-label">
                             <label>${factor}</label>
-                            <span class="rating-value">${currentRating}/10</span>
+                            <span class="rating-value" data-team="${team.abbr}" data-factor="${i}">${currentRating}/10</span>
                         </div>
                         <input type="range" min="0" max="10" value="${currentRating}" 
-                            onchange="updateRating('${team.abbr}', ${i}, this.value)">
+                            data-team="${team.abbr}" data-factor="${i}"
+                            oninput="updateRatingRealTime(event)">
                     </div>
                 `;
             });
@@ -1003,7 +1221,7 @@
                 </div>
                 ${factorsHTML}
                 <div class="overall-score">
-                    <div style="font-size: 12px; opacity: 0.9;">Your Overall Rating</div>
+                    <div class="overall-label">Your Rating</div>
                     <div class="overall-value">${overallScore.toFixed(1)}</div>
                 </div>
             `;
@@ -1017,9 +1235,29 @@
             return values.reduce((a, b) => a + b, 0) / values.length;
         }
 
-        function updateRating(teamAbbr, factorIndex, value) {
+        function updateRatingRealTime(event) {
+            const slider = event.target;
+            const teamAbbr = slider.dataset.team;
+            const factorIndex = parseInt(slider.dataset.factor);
+            const value = slider.value;
+
             ratings[teamAbbr][factorIndex] = parseFloat(value);
-            renderTeams();
+
+            const ratingValueSpan = document.querySelector(
+                `.rating-value[data-team="${teamAbbr}"][data-factor="${factorIndex}"]`
+            );
+            if (ratingValueSpan) {
+                ratingValueSpan.textContent = `${value}/10`;
+            }
+
+            const teamCard = slider.closest('.team-card');
+            if (teamCard) {
+                const overallScore = calculateTeamScore(teamAbbr);
+                const overallDiv = teamCard.querySelector('.overall-value');
+                if (overallDiv) {
+                    overallDiv.textContent = overallScore.toFixed(1);
+                }
+            }
         }
 
         function renderTeams() {
@@ -1031,170 +1269,262 @@
         }
 
         function submitVote() {
-            const groupRef = database.ref('groups/' + currentGroup);
-            groupRef.once('value', snapshot => {
-                const data = snapshot.val();
-                if (data.votes && data.votes[currentUserId]) {
-                    alert('⚠️ You have already voted in this group!');
-                    return;
-                }
+            const groups = getGroupsData();
+            const userId = getUserId();
 
-                const votes = data.votes || {};
-                votes[currentUserId] = ratings;
-                
-                const activity = data.activity || [];
-                activity.push(`✓ User voted (${Object.keys(votes).length}/10)`);
-                
-                groupRef.update({ 
-                    votes: votes,
-                    activity: activity
-                });
+            if (groups[currentGroup].votes.hasOwnProperty(userId)) {
+                document.getElementById('duplicateVoteModal').classList.add('show');
+                return;
+            }
 
-                const count = Object.keys(votes).length;
-                if (count >= 10) {
-                    setTimeout(() => {
-                        showWinner();
-                    }, 500);
-                } else {
-                    document.getElementById('successModal').classList.add('show');
-                    setTimeout(() => {
-                        document.getElementById('successModal').classList.remove('show');
-                        switchVoteTab('results');
-                    }, 2000);
-                }
-            });
+            groups[currentGroup].votes[userId] = ratings;
+            addActivity(`Vote #${Object.keys(groups[currentGroup].votes).length} submitted!`);
+            saveGroupsData(groups);
+
+            const newVoteCount = Object.keys(groups[currentGroup].votes).length;
+            
+            if (newVoteCount === 10) {
+                showWinnerModal();
+            } else {
+                showSuccessModal();
+            }
         }
 
         function checkVoteLimit() {
-            const groupRef = database.ref('groups/' + currentGroup);
-            groupRef.once('value', snapshot => {
-                const data = snapshot.val();
-                const votes = data.votes || {};
-                const hasVoted = votes.hasOwnProperty(currentUserId);
-                const voteCount = Object.keys(votes).length;
-                const submitBtn = document.getElementById('submitBtn');
+            const groups = getGroupsData();
+            const userId = getUserId();
+            const voteCount = Object.keys(groups[currentGroup].votes).length;
+            const hasVoted = groups[currentGroup].votes.hasOwnProperty(userId);
+            const submitBtn = document.getElementById('submitBtn');
+            const votingClosed = document.getElementById('votingClosed');
 
-                if (hasVoted) {
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = '✓ You Already Voted';
-                } else if (voteCount >= 10) {
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = '🔒 Voting Closed';
-                } else {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Submit My Ratings';
-                }
-            });
+            if (hasVoted) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '✓ You Already Voted';
+                submitBtn.style.opacity = '0.6';
+                votingClosed.classList.remove('show');
+            } else if (voteCount >= 10) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '🔒 Voting Closed';
+                votingClosed.classList.add('show');
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.textContent = `Submit My Ratings (${voteCount}/10 votes)`;
+                submitBtn.style.opacity = '1';
+                votingClosed.classList.remove('show');
+            }
         }
 
-        function showWinner() {
-            const groupRef = database.ref('groups/' + currentGroup);
-            groupRef.once('value', snapshot => {
-                const data = snapshot.val();
-                const votes = data.votes || {};
-                
-                const teamScores = teams.map(team => {
-                    let sum = 0, count = 0;
-                    Object.values(votes).forEach(vote => {
-                        if (vote[team.abbr]) {
-                            Object.values(vote[team.abbr]).forEach(score => {
-                                sum += parseFloat(score);
-                                count++;
-                            });
-                        }
-                    });
-                    return {
-                        name: team.name,
-                        overall: count > 0 ? sum / count : 0
-                    };
+        function showWinnerModal() {
+            const groups = getGroupsData();
+            const groupVotes = groups[currentGroup].votes;
+            
+            const teamScores = teams.map(team => {
+                let sum = 0, count = 0;
+                Object.values(groupVotes).forEach(vote => {
+                    if (vote[team.abbr]) {
+                        Object.values(vote[team.abbr]).forEach(factorScore => {
+                            sum += parseFloat(factorScore);
+                            count++;
+                        });
+                    }
                 });
-
-                teamScores.sort((a, b) => b.overall - a.overall);
-                const winner = teamScores[0];
-
-                document.getElementById('winnerText').textContent = `🏆 ${winner.name} is the group favorite! (${winner.overall.toFixed(1)}/10)`;
-                document.getElementById('winnerModal').classList.add('show');
-
-                setTimeout(() => {
-                    document.getElementById('winnerModal').classList.remove('show');
-                    switchVoteTab('results');
-                }, 3000);
+                return {
+                    name: team.name,
+                    abbr: team.abbr,
+                    overall: count > 0 ? sum / count : 0
+                };
             });
+
+            teamScores.sort((a, b) => b.overall - a.overall);
+            const winner = teamScores[0];
+
+            document.getElementById('winnerTeamName').textContent = winner.name;
+            document.getElementById('winnerStats').innerHTML = `
+                <div class="winner-stat">
+                    <span class="stat-label">Winner Rating</span>
+                    <span class="stat-value">${winner.overall.toFixed(1)}/10</span>
+                </div>
+            `;
+
+            document.getElementById('runnerUps').innerHTML = `
+                <div class="runner-up-title">🥈 Runner-ups</div>
+                <div class="runner-up-item">2nd: ${teamScores[1].name} (${teamScores[1].overall.toFixed(1)}/10)</div>
+                <div class="runner-up-item">3rd: ${teamScores[2].name} (${teamScores[2].overall.toFixed(1)}/10)</div>
+            `;
+
+            const modal = document.getElementById('winnerModal');
+            modal.classList.add('show');
+
+            setTimeout(() => {
+                modal.classList.remove('show');
+                switchVoteTab('results');
+            }, 4000);
+        }
+
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.add('show');
+            
+            setTimeout(() => {
+                modal.classList.remove('show');
+                switchVoteTab('results');
+            }, 2000);
         }
 
         function switchVoteTab(tabName) {
             document.getElementById('voteTab').classList.remove('active');
             document.getElementById('resultsTab').classList.remove('active');
+            
             document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            if (tabName === 'results') {
+                loadResults();
+            }
         }
 
         function loadResults() {
-            const groupRef = database.ref('groups/' + currentGroup);
-            groupRef.once('value', snapshot => {
-                const data = snapshot.val();
-                const votes = data.votes || {};
-                const totalVotes = Object.keys(votes).length;
-
-                document.getElementById('voterCount').textContent = `Total Group Votes: ${totalVotes}/10`;
-
-                const teamScores = teams.map(team => {
-                    let sum = 0, count = 0;
-                    Object.values(votes).forEach(vote => {
-                        if (vote[team.abbr]) {
-                            Object.values(vote[team.abbr]).forEach(score => {
-                                sum += parseFloat(score);
-                                count++;
-                            });
-                        }
-                    });
-                    return {
-                        name: team.name,
-                        overall: count > 0 ? sum / count : 0
-                    };
+            const groups = getGroupsData();
+            const groupVotes = groups[currentGroup].votes;
+            const resultsGrid = document.getElementById('resultsGrid');
+            resultsGrid.innerHTML = '';
+            
+            const totalVotes = Object.keys(groupVotes).length;
+            document.getElementById('voterCount').textContent = 
+                totalVotes > 0 ? `🔴 LIVE: ${totalVotes}/10 votes (${Math.round((totalVotes/10)*100)}%)` : 'Waiting for first vote...';
+            
+            const teamScores = teams.map(team => {
+                let sum = 0, count = 0;
+                Object.values(groupVotes).forEach(vote => {
+                    if (vote[team.abbr]) {
+                        Object.values(vote[team.abbr]).forEach(factorScore => {
+                            sum += parseFloat(factorScore);
+                            count++;
+                        });
+                    }
                 });
+                return {
+                    name: team.name,
+                    abbr: team.abbr,
+                    overall: count > 0 ? sum / count : 0,
+                    voteCount: totalVotes
+                };
+            });
 
-                teamScores.sort((a, b) => b.overall - a.overall);
+            teamScores.sort((a, b) => b.overall - a.overall);
 
-                const leaderboardGrid = document.getElementById('leaderboardGrid');
-                leaderboardGrid.innerHTML = '';
+            const leaderboardGrid = document.getElementById('leaderboardGrid');
+            leaderboardGrid.innerHTML = '';
 
-                teamScores.slice(0, 5).forEach((team, index) => {
+            if (totalVotes === 0) {
+                leaderboardGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-secondary); padding: var(--space-20);">Waiting for votes...</div>';
+            } else {
+                teamScores.forEach((team, index) => {
                     const item = document.createElement('div');
                     item.className = 'leaderboard-item';
-                    const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+                    
+                    let rankSymbol = `#${index + 1}`;
+                    if (index === 0) rankSymbol = '🥇';
+                    else if (index === 1) rankSymbol = '🥈';
+                    else if (index === 2) rankSymbol = '🥉';
+
                     item.innerHTML = `
-                        <div class="leaderboard-rank">${medals[index]}</div>
+                        <div class="leaderboard-rank">${rankSymbol}</div>
                         <div class="leaderboard-info">
                             <h4>${team.name}</h4>
+                            <p>${team.abbr}</p>
                         </div>
-                        <div class="leaderboard-value">${team.overall.toFixed(1)}/10</div>
+                        <div class="leaderboard-score">
+                            <div class="leaderboard-value">${team.overall.toFixed(1)}</div>
+                            <div class="leaderboard-votes">/10</div>
+                        </div>
                     `;
                     leaderboardGrid.appendChild(item);
                 });
+            }
+
+            teams.forEach(team => {
+                const card = createResultCard(team, groupVotes);
+                resultsGrid.appendChild(card);
             });
         }
 
-        // Check for join via link
-        const urlParams = new URLSearchParams(window.location.search);
-        const joinGroup = urlParams.get('join');
-
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                currentUserId = user.uid;
-                loadAvailableGroups();
+        function createResultCard(team, groupVotes) {
+            const card = document.createElement('div');
+            card.className = 'team-card';
+            
+            let factorsHTML = '';
+            let overallSum = 0;
+            let overallCount = 0;
+            
+            factors.forEach((factor, i) => {
+                let sum = 0, count = 0;
                 
-                if (joinGroup) {
-                    try {
-                        const groupName = atob(joinGroup);
-                        setTimeout(() => {
-                            window.joinGroup(groupName);
-                        }, 1000);
-                    } catch (e) {
-                        console.log('Invalid join code');
+                Object.values(groupVotes).forEach(vote => {
+                    if (vote[team.abbr] && vote[team.abbr][i] !== undefined) {
+                        sum += parseFloat(vote[team.abbr][i]);
+                        count++;
                     }
+                });
+                
+                const avg = count > 0 ? (sum / count).toFixed(2) : 'N/A';
+                const percentage = avg !== 'N/A' ? (avg / 10) * 100 : 0;
+                
+                if (count > 0) {
+                    overallSum += parseFloat(avg);
+                    overallCount++;
                 }
+                
+                factorsHTML += `
+                    <div class="rating-factor">
+                        <div class="rating-label">
+                            <label>${factor}</label>
+                            <span class="rating-value">${avg}/10</span>
+                        </div>
+                        <div class="avg-rating-bar">
+                            <div class="avg-rating-fill" style="width: ${percentage}%"></div>
+                        </div>
+                        <div class="avg-rating-text">
+                            <span>${count} votes</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const overallScore = overallCount > 0 ? (overallSum / overallCount).toFixed(1) : '0.0';
+            
+            card.innerHTML = `
+                <div class="team-header">
+                    <div class="team-badge">${team.abbr}</div>
+                    <h3 class="team-name">${team.name}</h3>
+                </div>
+                ${factorsHTML}
+                <div class="overall-score">
+                    <div class="overall-label">Group Average</div>
+                    <div class="overall-value">${overallScore}</div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Initialize
+        currentUserId = getUserId();
+        loadAvailableGroups();
+        
+        // Check if joining via URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const groupName = urlParams.get('group');
+        if (groupName) {
+            const groups = getGroupsData();
+            if (groups[groupName]) {
+                joinGroup(groupName);
             }
-        });
+        }
     </script>
 </body>
 </html>
