@@ -890,6 +890,27 @@
     </div>
 
     <script>
+         // ============ FIREBASE CONFIGURATION ============
+        const firebaseConfig = {
+          apiKey: "AIzaSyAjYdcQiJ-KF-8h5VI1USkte5UWY77L2rE",
+          authDomain: "auctionrating.firebaseapp.com",
+          databaseURL: "https://auctionrating-default-rtdb.firebaseio.com",
+          projectId: "auctionrating",
+          storageBucket: "auctionrating.firebasestorage.app",
+          messagingSenderId: "173374951850",
+          appId: "1:173374951850:web:1987d1672d28aaa0b85bd3",
+          measurementId: "G-VVJFGHS9GY"
+        };
+        // ================================================
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+        // Authenticate anonymously
+        auth.signInAnonymously().catch(error => {
+            console.log('Auth error:', error);
         const teams = [
             { name: 'Mumbai Indians', abbr: 'MI' },
             { name: 'Chennai Super Kings', abbr: 'CSK' },
